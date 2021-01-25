@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+    crossorigin="anonymous"
+  />
+  <body class="center-xy">
+    <main id="finished-projects-page">
+      <div class="options">
+        <a href="/home" class="center-xy color-switch back-to-homepage">
+          back
+        </a>
+      </div>
+      <section class="finished-project-list-container">
+        <% for (let project of finishedProjects.reverse()) { %>
+        <div class="project-line">
+          <h3>
+            <%= project.title.substring(0, 85) %><span
+              class="finished-project-version"
+            >
+              v<%= project.version %></span
+            >
+          </h3>
+          <h4 class="show-finished-project-details">
+            Details <i class="fas fa-chevron-down"></i>
+          </h4>
+          <form action="/finished-projects/reactivate/" method="POST">
+            <input
+              type="hidden"
+              name="activeProjectId"
+              value="<%= project.activeProjectId %>"
+            />
+            <input
+              type="hidden"
+              name="finishedProjectId"
+              value="<%= project._id %>"
+            />
+            <button
+              class="list-item-btn color-switch"
+              style="margin-left: 10px"
+            >
+              reactivate
+            </button>
+          </form>
+          <div class="finished-project-details hidden">
+            <div class="details-inner-container">
+              <div>project idea logged: <%= project.startDate %></div>
+              <div>project finished: <%= project.date %></div>
+              <div><%= project.hoursWorked %> hours to build</div>
+              <div>
+                <a href="<%= project.website %>" target="none"
+                  ><%= project.website %></a
+                >
+                <form
+                  action="/finished-projects/iterative-notes/<%= project._id %>"
+                  method="GET"
+                >
+                  <input type="hidden" name="editing" value="true" />
+                  <button class="list-item-btn color-switch">edit</button>
+                </form>
+              </div>
+              <div>
+                <a href="/finished-projects/iterative-notes/<%= project._id %>"
+                  >iterative notes</a
+                >
+                <form
+                  action="/finished-projects/iterative-notes/<%= project._id %>"
+                  method="GET"
+                >
+                  <input type="hidden" name="editing" value="true" />
+                  <button class="list-item-btn color-switch">edit</button>
+                </form>
+              </div>
+              <div>
+                <a href="/finished-projects/view-idea/<%= project.ideaId %>"
+                  >original idea</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </section>
+    </main>
+    <div
+      class="popup-overlay center-xy <% if (!selectedOriginalIdea) { %>hidden<% } %>"
+    >
+      <section id="view-original-idea-from-finished-projects">
+        <div class="center-x padding-10px">
+          <h1><%= selectedOriginalIdea.title %></h1>
+          <h2>description</h2>
+          <p><%- selectedOriginalIdea.desc %></p>
+          <h2>necessary tech</h2>
+          <p><%- selectedOriginalIdea.techStack %></p>
+          <h2>hours to complete</h2>
+          <p><%= selectedOriginalIdea.hoursToComplete %></p>
+          <% if (selectedOriginalIdea.customFields) { %> <% for (let field of
+          selectedOriginalIdea.customFieldsData) { %>
+          <h2><%= field.title %></h2>
+          <p><%- field.content %></p>
+          <% } %> <% } %>
+        </div>
+      </section>
+    </div>
+    <div
+      class="popup-overlay center-xy <% if (!selectedProject) { %>hidden<% } %>"
+    >
+      <section id="view-iterative-notes">
+        <div class="padding-10px">
+          <h1 class="center-x"><%= selectedProject.title %></h1>
+          <p style="text-align: left"><%- selectedProject.iterativeNotes %></p>
+        </div>
+      </section>
+    </div>
+    <div class="popup-overlay center-xy <%if (!editing) { %>hidden<% } %>">
+      <section id="congrats-for-finishing">
+        <div class="center-x" style="padding: 10px">
+          <h2>edit iterative notes</h2>
+          <form action="/finished-projects/edit-notes/" method="POST">
+            <label for="finished-project-website">website: </label>
+            <input
+              type="text"
+              name="finishedProjectWebsite"
+              class="center-x"
+              value="<%= selectedProject.website %>"
+            />
+            <label for="iterative-notes">iterative notes:</label>
+            <textarea name="iterativeNotes" cols="30" rows="10">
+              <%= selectedProject.iterativeNotes %>
+            </textarea>
+            <input
+              type="hidden"
+              name="projectId"
+              value="<%= selectedProject._id %>"
+            />
+            <button type="submit" class="list-item-btn center-x color-switch">
+              Submit
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+    <script src="/scripts/finished-project-dom-control.js"></script>
+  </body>
+</html>

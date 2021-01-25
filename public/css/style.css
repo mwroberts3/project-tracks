@@ -1,0 +1,563 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  position: relative;
+  background: #333;
+  color: #111;
+  font-family: "Courier New", Courier, monospace;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+}
+
+/* Component Styling */
+.list-item-btn {
+  background: #444;
+  color: #ddd;
+  outline: none;
+  border: 1px solid #999;
+  border-radius: 10px;
+  font-family: "Courier New", Courier, monospace;
+  padding: 2px 5px;
+}
+
+.delete-btn {
+  background: rgb(221, 46, 81);
+  color: #ddd;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-family: "Courier New", Courier, monospace;
+  padding: 2px 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: rgb(209, 112, 132);
+  color: #111;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid #777;
+}
+
+textarea {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Utilities */
+.center-xy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-x {
+  margin: auto;
+  text-align: center;
+}
+
+.center-x-text {
+  text-align: center;
+}
+
+.center-y {
+  display: flex;
+  align-items: center;
+}
+
+.padding-10px {
+  padding: 10px;
+}
+
+.color-switch {
+  padding: 0 5px;
+  color: #ddd !important;
+  transition: all 0.3s ease;
+}
+
+.color-switch:hover {
+  background: #ddd !important;
+  color: #111 !important;
+  cursor: pointer;
+}
+
+.color-switch .section-header {
+  color: #eee !important;
+  transition: color 0.3s ease;
+}
+
+.color-switch:hover .section-header {
+  color: #111 !important;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.popup-overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.height-adjustment {
+  height: auto !important;
+  padding: 10px 5px !important;
+}
+
+/* Set up mongodb connection */
+#setup-mongo-connection {
+  color: #ddd;
+}
+
+/* Index */
+.index-contents-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#index {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-section-header {
+  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+.main-section-header h1 {
+  font-size: 3rem;
+  color: #eee;
+}
+
+.main-section-header a {
+  color: #ddd;
+}
+
+.main-section-select {
+  width: 50% !important;
+  border: 2px solid #aaa;
+  background: #111;
+  height: 200px;
+  font-size: 30px;
+  /* font-weight: bold; */
+}
+
+.category-stats {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+/* Project Ideas */
+#project-ideas-page {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding-bottom: 10px;
+}
+
+#project-ideas-page .options {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#project-ideas-page .options p {
+  width: 120px;
+  height: 40px;
+  background: #111;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.list-of-ideas {
+  height: calc(100vh - 70px);
+  width: 100%;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background: #eee;
+  overflow-y: auto;
+}
+
+idea-card .idea-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+idea-card .idea-header div {
+  display: flex;
+}
+
+idea-card button:first-of-type {
+  margin-left: 5px;
+}
+
+idea-card div {
+  margin: 10px 5px 10px 5px;
+}
+
+#new-idea-popup {
+  width: 100%;
+  max-width: 900px;
+  color: #ddd;
+  background: #444;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+#new-idea-popup label,
+#new-idea-popup input {
+  display: block;
+}
+
+#new-idea-popup input,
+#new-idea-popup textarea {
+  text-align: left;
+}
+
+/* Active Projects */
+#active-projects-page {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding-bottom: 10px;
+}
+
+#active-projects-page .options {
+  width: 250px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#active-projects-page .options p,
+#active-projects-page .options a {
+  width: 120px;
+  height: 40px;
+  background: #111;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.active-project-card {
+  background: #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.active-project-card div {
+  flex-wrap: wrap;
+}
+
+.active-project-card div p {
+  width: 100%;
+}
+
+.active-project-card form {
+  display: inline;
+}
+
+.active-project-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.log-hours-input-container {
+  position: relative;
+  width: 100px;
+}
+
+.log-hours-input {
+  width: 70px;
+  height: 17px !important;
+  outline: none;
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border: 1px #aaa solid !important;
+}
+
+.log-hours-btn {
+  position: absolute;
+  top: 0;
+  left: 64px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.active-projects-grid {
+  display: grid;
+  grid-template-columns: minmax(400px, 595px) minmax(400px, 595px);
+  grid-gap: 10px;
+}
+
+@media only screen and (max-width: 888px) {
+  .active-projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* View Idea from Active */
+#idea-view {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding-bottom: 10px;
+}
+
+.view-idea-container {
+  background: #ddd;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#idea-view .options {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#idea-view .options p,
+#idea-view .options a {
+  width: 120px;
+  height: 40px;
+  background: #111;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+/* Bugs and Todo */
+#bugs-and-todo {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding-bottom: 10px;
+}
+
+#bugs-and-todo .options {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#bugs-and-todo .options p,
+#bugs-and-todo .options a {
+  width: 120px;
+  height: 40px;
+  background: #111;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.task-card {
+  width: 100%;
+  background: #ddd;
+  padding: 5px;
+  position: relative;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.task-card .task-options {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.task-index {
+  font-size: 14px;
+}
+
+#add-task-popup {
+  width: 100%;
+  max-width: 900px;
+  color: #ddd;
+  background: #444;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+#add-task-popup label,
+#add-task-popup input,
+#add-task-popup button {
+  display: block;
+}
+
+#add-task-popup input,
+#add-task-popup textarea {
+  text-align: left;
+}
+
+/* Finished Project Popup */
+#congrats-for-finishing {
+  width: 100%;
+  max-width: 900px;
+  color: #ddd;
+  background: #444;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+#congrats-for-finishing label,
+#congrats-for-finishing button {
+  display: block;
+  margin-top: 10px;
+}
+
+#congrats-for-finishing input,
+#congrats-for-finishing textarea {
+  text-align: left;
+}
+
+/* Finished Projects */
+#finished-projects-page {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+
+#finished-projects-page .options {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#finished-projects-page .options p,
+#finished-projects-page .options a {
+  width: 120px;
+  height: 40px;
+  background: #111;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+#finished-projects-page .project-line {
+  width: 100%;
+  height: 40px;
+  padding: 0 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+#finished-projects-page .project-line h3:first-child {
+  width: calc(100% - 195px);
+}
+
+#finished-projects-page .project-line h3,
+#finished-projects-page .project-line h4 {
+  display: inline;
+}
+
+.finished-project-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.finished-project-version {
+  font-size: 14px;
+}
+
+.finished-project-details .details-inner-container {
+  padding: 10px 0;
+  margin: auto;
+  width: 100%;
+  text-align: left;
+}
+
+.details-inner-container form {
+  display: inline;
+}
+
+#view-original-idea-from-finished-projects {
+  width: 100%;
+  max-width: 900px;
+  color: #ddd;
+  background: #444;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+#view-iterative-notes {
+  width: 100%;
+  max-width: 900px;
+  color: #ddd;
+  background: #444;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: auto;
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <body class="center-xy">
+    <main id="project-ideas-page">
+      <div class="options">
+        <div>
+          <p id="add-new-idea-btn" class="center-x color-switch">add new idea</p>
+        </div>
+        <p class="center-xy color-switch back-to-homepage">back</p>
+      </div>
+      <div class="list-of-ideas">
+        <% if (projectIdeas.length > 0) { %> <% for (let idea of
+        projectIdeas.reverse()) { %>
+        <% if (!idea.active) { %>
+        <idea-card>
+          <div class="idea-header">
+            <h2><%= idea.title %> <%= idea.date %></h2>
+            <div>
+              <form action="/project-ideas/make-active" method="POST">
+                <input type="hidden" value="<%= idea._id %>" name="ideaId" />
+                <button class="list-item-btn color-switch">make active</button>
+              </form>
+              <form
+                action="/project-ideas/edit/<%= idea._id %>?edit=true"
+                method="POST"
+              >
+                <input type="hidden" value="<%= idea._id %>" name="ideaId" />
+                <button class="list-item-btn color-switch">edit</button>
+              </form>
+              <form action="/project-ideas/delete" method="POST">
+                <input type="hidden" value="<%= idea._id %>" name="ideaId" />
+                <button class="delete-btn">delete</button>
+              </form>
+            </div>
+          </div>
+          <div>
+            <h3>description:</h3>
+            <%- idea.desc %>
+          </div>
+          <div>
+            <h3>necessary tech:</h3>
+            <%- idea.techStack %>
+          </div>
+          <div>
+            <h3>estimated hours for completion:</h3>
+            <%= idea.hoursToComplete %>
+          </div>
+          <% if (idea.customFields) { %> <% for (let field of
+          idea.customFieldsData) { %>
+          <div>
+            <h3><%= field.title %></h3>
+            <%- field.content %>
+          </div>
+          <% } %> <% } %>
+          <hr />
+        </idea-card>
+        <% } %>
+        <% } %> <% } %>
+      </div>
+    </main>
+    <div
+      class="popup-overlay center-xy <% if (!editMode && !addFromActive) { %> hidden <% } %> >"
+    >
+      <section id="new-idea-popup">
+        <div class="center-x" style="padding: 10px">
+          <h2>
+            <% if (!editMode) { %>
+            Add New Project Idea
+            <% } else { %>
+            Edit Project Idea
+            <% } %>
+          </h2>
+          <form id="new-project-form" action="/project-ideas" method="POST">
+            <% if (addFromActive) { %>
+              <input type="hidden" value="true" name="addFromActive">  
+            <% } %>
+            <label for="project-name"> Enter Project Name: </label>
+            <input
+              type="text"
+              name="project-name"
+              class="center-x"
+              value="<% if (editMode) { %><%= selectedIdea.title %><% } %>"
+            />
+            <label for="project-description"> Enter Description (HTML): </label>
+            <textarea name="project-description" cols="30" rows="10">
+<% if (editMode) { %><%= selectedIdea.desc %><% } %>
+            </textarea>
+            <label for="necessary-tech">Necessary Tech: (HTML)</label>
+            <textarea name="necessary-tech" cols="30" rows="10">
+<% if (editMode) { %><%= selectedIdea.techStack %><% } %> </textarea
+            >
+            <label for="estimated-hours-to-completion"
+              >Estimated Hours to Completion</label
+            >
+            <input
+              type="number"
+              name="estimated-hours-to-completion"
+              class="center-x"
+              value="<% if (editMode) { %><%= selectedIdea.hoursToComplete %><% } %>"
+            />
+            <div class="custom-field-container">
+              <% if (editMode && selectedIdea.customFields) { %>
+                <% for (let field of selectedIdea.customFieldsData) { %>
+                  <label for="custom-field-name">Custom Field Name</label>
+                  <input type="text" name="custom-field-title" class="center-x" value="<%= field.title %>"
+                  <label for="custom-field-content">Content (HTML)</label>
+                  <textarea name="custom-field-content" cols="30" rows="10" style="display: block; margin: auto"><%- field.content %></textarea>
+                  <% } %><% } %>
+            </div>
+            <div class="padding-10px"></div>
+            <button type="button" class="add-custom-field list-item-btn color-switch">
+              Add Custom Field
+            </button>
+            <% if (editMode) { %>
+            <input
+              type="hidden"
+              value="<%= selectedIdea._id %>"
+              name="ideaId"
+            />
+            <input type="hidden" value="true" name="editMode" />
+            <% } %>
+            <% if (editFromActive) { %>
+              <input type="hidden" value=true name="editFromActive">
+            <% } %>
+            <button type="submit" class="list-item-btn color-switch">Submit</button>
+          </form>
+        </div>
+      </section>
+    </div>
+    <% if (!editFromActive && !addFromActive) { %>
+    <script src="/scripts/add-new-project-idea.js"></script>
+    <% } else { %>
+    <script src="/scripts/add-new-project-idea-from-active.js"></script>
+    <% } %>
+    <script>
+      document
+        .querySelector(".back-to-homepage")
+        .addEventListener("click", () => {
+          window.location.href = "/home";
+        });
+    </script>
+  </body>
+</html>

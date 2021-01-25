@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bugs and Todo</title>
+  </head>
+  <body class="center-xy">
+    <main id="bugs-and-todo">
+      <div class="options">
+        <div>
+          <p id="add-new-bug-todo-btn" class="center-x color-switch">
+            add new bug/todo
+          </p>
+        </div>
+        <a
+          href="/active-projects"
+          class="center-xy color-switch back-to-homepage"
+        >
+          back
+        </a>
+      </div>
+      <% let index = 0 %> <% for (let task of bugsAndTodo.reverse()) { %>
+      <div class="task-card">
+        <h2>
+          <span class="task-index">(<%= index %>)</span> <%= task.title %>
+        </h2>
+        <p><%= task.date %></p>
+        <p><%- task.content %></p>
+        <div class="task-options">
+          <form
+            action="/active-projects/view-bugs-and-todo/<%= projectId %>"
+            method="GET"
+          >
+            <input type="hidden" value="<%= task._id %>" name="taskId" />
+            <input type="hidden" value="true" name="edit" />
+            <input type="hidden" value="<%= task.title %>" name="taskTitle" />
+            <input
+              type="hidden"
+              value="<%= task.content %>"
+              name="taskContent"
+            />
+            <button class="list-item-btn color-switch">edit</button>
+          </form>
+          <form action="/active-projects/delete-task" method="POST">
+            <input type="hidden" value="<%= task._id %>" name="taskId" />
+            <input type="hidden" value="<%= projectId %>" name="projectId" />
+            <button class="delete-btn">delete</button>
+          </form>
+        </div>
+      </div>
+      <% index++ %> <% } %>
+    </main>
+    <div class="popup-overlay center-xy <% if (!editMode) { %> hidden <% } %>">
+      <section id="add-task-popup">
+        <div class="center-x" style="padding: 10px">
+          <% if (!editMode) { %>
+          <h2>Add New Bug/Todo</h2>
+          <% } else { %>
+          <h2>Edit Bug/Todo</h2>
+          <% } %>
+          <form
+            id="add-new-task-form"
+            action="/active-projects/add-task/"
+            method="POST"
+          >
+            <label for="taskTitle">Enter Task Name: </label>
+            <input
+              type="text"
+              name="taskTitle"
+              class="center-x"
+              value="<%=
+            selectedTask.title %>"
+            />
+            <label for="taskDesc">Enter Task Description (HTML): </label>
+            <textarea name="taskDesc" cols="60" rows="10">
+              <% if (editMode) { %>
+                <%- selectedTask.content %>
+              <% } %>
+            </textarea>
+            <input type="hidden" value="<%= projectId %>" name="projectId" />
+            <% if (editMode) { %>
+            <input type="hidden" value="true" name="editing" />
+            <input
+              type="hidden"
+              value="<%= selectedTask._id %>"
+              name="taskId"
+            />
+            <% } %>
+            <button type="submit" class="list-item-btn center-x color-switch">
+              Submit
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+    <% if (!editMode) { %>
+    <script src="/scripts/add-new-bug-todo.js"></script>
+    <% } else { %>
+    <script src="/scripts/edit-bug-todo.js"></script>
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+    crossorigin="anonymous"
+  />
+  <body class="center-xy">
+    <div class="index-contents-container">
+      <header class="main-section-header">
+        <h1>Project Tracks</h1>
+        <p>
+          v1.0.0 <a href="#"><i class="fab fa-github-alt"></i></a>
+        </p>
+      </header>
+      <main id="index">
+        <section
+          class="main-section-select center-xy color-switch"
+          id="project-ideas"
+          style="border-top-left-radius: 10px; border-bottom-left-radius: 10px"
+        >
+          <i
+            class="far fa-lightbulb"
+            style="padding-bottom: 10px; color: yellow"
+          ></i>
+          <p class="section-header center-x-text">Project Ideas</p>
+          <p><span class="category-stats">(<%= projectIdeas %>)</span></p>
+        </section>
+        <section
+          class="main-section-select center-xy color-switch"
+          id="active-projects"
+          style="
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+          "
+        >
+          <i class="fas fa-cogs" style="padding-bottom: 10px; color: lime"></i>
+          <p class="section-header center-x-text">Active Projects</p>
+          <p><span class="category-stats">(<%= activeProjects %>)</span></p>
+        </section>
+        <div style="width: 25%"></div>
+        <section
+          class="main-section-select center-xy color-switch"
+          id="finished-projects"
+          style="
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+          "
+        >
+          <i
+            class="far fa-check-square"
+            style="padding-bottom: 10px; color: orangered"
+          ></i>
+          <p class="section-header center-x-text">Finished Projects</p>
+          <p>
+            <span class="category-stats">(<%= finishedProjects %>)</span>
+          </p>
+        </section>
+      </main>
+    </div>
+    <script>
+      document.getElementById("project-ideas").addEventListener("click", () => {
+        window.location.href = "/project-ideas";
+      });
+      document
+        .getElementById("active-projects")
+        .addEventListener("click", () => {
+          window.location.href = "/active-projects";
+        });
+      document
+        .getElementById("finished-projects")
+        .addEventListener("click", () => {
+          window.location.href = "/finished-projects";
+        });
+    </script>
+  </body>
+</html>

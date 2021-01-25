@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <body class="center-xy">
+    <main id="idea-view">
+      <div class="options">
+        <form
+          action="/project-ideas/edit/:ideaId?edit=true&fromActive=true"
+          method="POST"
+        >
+          <input type="hidden" value="<%= project._id %>" name="ideaId" />
+          <p class="center-xy color-switch" onclick="this.parentNode.submit()">
+            edit
+          </p>
+        </form>
+        <a
+          href="/active-projects"
+          class="center-xy color-switch back-to-homepage"
+        >
+          back
+        </a>
+      </div>
+      <div class="view-idea-container">
+        <h1><%= project.title %></h1>
+        <h2>description</h2>
+        <p><%- project.desc %></p>
+        <h2>necessary tech</h2>
+        <p><%- project.techStack %></p>
+        <h2>hours to complete</h2>
+        <p><%= project.hoursToComplete %></p>
+        <% if (project.customFields) { %> <% for (let field of
+        project.customFieldsData) { %>
+        <h2><%= field.title %></h2>
+        <p><%- field.content %></p>
+        <% } %> <% } %>
+      </div>
+    </main>
+  </body>
+</html>

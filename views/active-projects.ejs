@@ -1,0 +1,120 @@
+<%- include('./includes/head.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./includes/head.ejs') %>
+  <body class="center-xy">
+    <main id="active-projects-page">
+      <div class="options">
+        <a href="/project-ideas/add-from-active" class="center-x color-switch">
+          add new idea
+        </a>
+        <p class="center-xy color-switch back-to-homepage">back</p>
+      </div>
+      <div class="active-projects-grid">
+        <% for (let project of activeProjects.reverse()) { %> <% if
+        (!project.finished) { %>
+        <div class="active-project-card">
+          <div style="height: 20%">
+            <h2><%= project.title %></h2>
+            <p>
+              <small>
+                <strong>
+                  <%= Math.round((project.hoursWorked / project.hoursToComplete)
+                  * 100) %>% / ~<%= project.hoursToComplete -
+                  project.hoursWorked %> hours left
+                </strong>
+              </small>
+            </p>
+          </div>
+          <div style="height: 75%; overflow-y: auto"><%- project.desc %></div>
+          <div class="active-project-options" style="height: 10%">
+            <form action="/active-projects/view-idea" method="POST">
+              <input
+                type="hidden"
+                value="<%= project.ideaId %>"
+                name="ideaId"
+              />
+              <button class="list-item-btn color-switch">view idea</button>
+            </form>
+            <form
+              action="/active-projects/view-bugs-and-todo/<%= project._id %>"
+              method="POST"
+            >
+              <button class="list-item-btn color-switch">
+                bugs/todo <%= project.bugsAndTodo.length %>
+              </button>
+            </form>
+            <form
+              action="/active-projects/add-hours"
+              method="POST"
+              class="active-project-options-form"
+            >
+              <input
+                type="hidden"
+                value="<%= project._id %>"
+                name="projectId"
+              />
+              <div class="log-hours-input-container">
+                <input
+                  class="log-hours-input"
+                  type="number"
+                  name="hoursWorked"
+                  placeholder="hour(s)"
+                />
+                <button class="list-item-btn color-switch log-hours-btn">
+                  log
+                </button>
+              </div>
+            </form>
+            <form
+              action="/active-projects/finish-project/<%= project._id %>"
+              method="GET"
+            >
+              <button class="list-item-btn color-switch finish-project">
+                FINISHED
+              </button>
+            </form>
+            <form action="/active-projects/delete-project" method="POST">
+              <input
+                type="hidden"
+                value="<%= project._id %>"
+                name="projectId"
+              />
+              <button class="delete-btn">delete</button>
+            </form>
+          </div>
+        </div>
+        <% } %> <% } %>
+      </div>
+    </main>
+    <div class="popup-overlay center-xy <%if (!finished) { %>hidden<% } %>">
+      <section id="congrats-for-finishing">
+        <div class="center-x" style="padding: 10px">
+          <h2>Congratulations for Finishing Project</h2>
+          <form
+            action="/active-projects/finished/<%= projectId %>"
+            method="POST"
+          >
+            <label for="current-project-version">version: </label>
+            <input type="text" name="finishedProjectVersion" class="center-x" />
+            <label for="finished-project-website">website: </label>
+            <input type="text" name="finishedProjectWebsite" class="center-x" />
+            <label for="iterative-notes">iterative notes:</label>
+            <textarea name="iterativeNotes" cols="30" rows="10"></textarea>
+            <input type="hidden" name="projectId" value="<%= projectId %>" />
+            <button type="submit" class="list-item-btn center-x color-switch">
+              Submit
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+    <script>
+      document
+        .querySelector(".back-to-homepage")
+        .addEventListener("click", () => {
+          window.location.href = "/home";
+        });
+    </script>
+  </body>
+</html>
